@@ -19,7 +19,6 @@ transition: none
 Speaker notes
 :::
 
-
 ## Contact
 
 - <slim@sarahlim.com>

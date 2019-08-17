@@ -1,0 +1,28 @@
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: #333;
+    letter-spacing: 0.01px;
+}
+
+.reveal {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/**********************************
+ * Speaker notes
+ **********************************/
+
+.reveal .notes {
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 24px;
+}
+
+.reveal .notes > p:first-child::before {
+    content: "💬 Notes: ";
+    display: inline;
+    font-weight: 600;
+}
+
