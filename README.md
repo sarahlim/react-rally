@@ -1,4 +1,4 @@
-# All The Memory Safety Of C Combined With All The Blazing Speed Of JavaScript
+# All the memory safety of C combined with all the blazing speed of JavaScript
 
 Slides and demo code for my [React Rally](https://www.reactrally.com) 2019 talk, "All The Memory Safety Of C Combined With All The Blazing Speed Of JavaScript
 ".
