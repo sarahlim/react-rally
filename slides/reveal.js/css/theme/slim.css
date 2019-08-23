@@ -13,7 +13,7 @@
 :root {
   --height: 700px;
 
-  --img-margin-y: 15px;
+  --img-margin-y: 0;
 
   --fig-width: 95%;
   --fig-height: 95%;
@@ -49,7 +49,7 @@ body {
 
 .reveal {
   font-family: var(--body-font);
-  font-size: 40px;
+  font-size: 50px;
   font-weight: normal;
   color: #333; }
 
@@ -107,6 +107,16 @@ body {
 
 .reveal #title-slide .author {
   margin: 10px;
+  line-height: 100px;
+}
+
+.reveal #title-slide .author:last-of-type {
+    background-image: url("../../../img/notion-logo-no-background.png");
+    background-repeat: no-repeat;
+    background-position: left calc(50% - 4.95em) center;
+    background-size: 80px;
+    position: relative;
+    transform: translateX(50px);
 }
 
 .reveal #title-slide .date {
@@ -151,10 +161,10 @@ div.column.middle {
   font-size: 2.6em; }
 
 .reveal h2 {
-  font-size: 1.6em; }
+  font-size: 1.4em; }
 
 .reveal h3 {
-  font-size: 1.3em; }
+  font-size: 1.2em; }
 
 .reveal h4 {
   font-size: 0.55em; }
@@ -328,7 +338,7 @@ div.column.middle {
   /* width: 90%; */
   margin: 20px auto;
   text-align: left;
-  font-size: 0.85em;
+  font-size: 0.75em;
   font-family: var(--monospace-stack);
   line-height: 1.2em;
   word-wrap: break-word;
@@ -336,11 +346,11 @@ div.column.middle {
 }
 
 .reveal pre.med {
-  font-size: 0.75em;
+  font-size: 0.60em;
 }
 
 .reveal pre.small {
-  font-size: 0.65em;
+  font-size: 0.52em;
 }
 
 
