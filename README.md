@@ -9,9 +9,13 @@ See also [wasm-trace](https://github.com/sarahlim/wasm-trace).
 
 ## Development
 
-This Vim command will rebuild slides on write.
+You need [pandoc](https://pandoc.org/) and [pandoc-citeproc](https://github.com/jgm/pandoc-citeproc). You can install both via Homebrew, Cabal, or Stack.
 
-```
+Edit slides in `index.md`. All [Pandoc markdown](https://pandoc.org/MANUAL.html#producing-slide-shows-with-pandoc), HTML, and LaTeX is valid.
+
+This Vim command will rebuild slides on write:
+
+```vim
 autocmd BufWritePost * :silent exec "!make"
 ```
 
