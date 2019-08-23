@@ -11,7 +11,7 @@ width: 1250
 transition: none
 
 bibliography:
-  - /Users/slim/git/react-rally/slides/citations.bib
+  - /Users/slim/git/react-rally/citations.bib
 suppress-bibliography: true
 ---
 
@@ -132,6 +132,7 @@ Those are all actual quotes from me
 
 - Need a **performant runtime** for the Web
 - But as we all know, JavaScript was designed by accident in 10 minutes and originally intended to make WordArt
+- A way to interoperate with native and low-level libraries
 - Prior art: ActiveX, NaCl, asm.js
 
 
@@ -141,7 +142,16 @@ Those are all actual quotes from me
 ::: columns
 ::: column
 
-### Execution semantics
+### How does it look
+
+- Compact and fast to decode
+- Easy to validate, compile (single-pass)
+
+:::
+
+::: column
+
+### How does it run
 
 - Safe to execute
 - Fast
@@ -150,22 +160,17 @@ Those are all actual quotes from me
 - Easy to reason about
 
 :::
-
-::: column
-
-### Representation
-
-- Compact and fast to decode
-- Easy to validate, compile (single-pass)
-
-:::
 :::
 
 [@Haas:2017:BWU:3062341.3062363]
 
 ---
 
-> To our knowledge, WebAssembly is the **first industrial-strength language** or VM that has been **designed with a formal semantics from the start**. This not only demonstrates the **“real world” feasibility** of such an approach, but also that it leads to a notably clean design… **nothing in its design depends on the Web** or a JavaScript environment. [@Haas:2017:BWU:3062341.3062363]
+> To our knowledge, WebAssembly is the first industrial-strength language or VM that has been **designed with a formal semantics from the start**.
+
+. . .
+
+> This not only demonstrates the <mark>**“real world” feasibility**</mark> of such an approach, but also that it leads to a notably clean design. [@Haas:2017:BWU:3062341.3062363]
 
 ## Design choices
 
@@ -178,6 +183,16 @@ Those are all actual quotes from me
 ## Compilation target
 
 For "high-level" languages like C, C++, Rust
+
+## Compiling functions
+
+
+```cpp
+int addOne(int x) {
+    return x + 1;
+}
+```
+
 
 ## Compiling functions
 
@@ -210,6 +225,20 @@ WebAssembly
 :::
 ::::::
 
+
+
+## Compiling modules
+
+
+```cpp
+int addOne(int x) {
+    return x + 1;
+}
+
+int main(int argc) {
+    return addOne(argc);
+}
+```
 
 ## Compiling modules
 
@@ -302,9 +331,7 @@ int main(int argc) {
 
 ## Stack-based virtual machine
 
-- An execution paradigm for the language
-- Enables **more compact programs** compared to a register-based model
-
+How does it run?
 
 ## Stack machine semantics
 
@@ -762,53 +789,28 @@ fetch('demo/calls.wasm')
 
 ## Inspecting exports
 
-```js
-WebAssembly.Module.exports(module)
-```
-
-```js
-[ { "name": "memory", "kind": "memory" }
-, { "name": "_Z11getCallsPtrv", "kind": "function" }
-, { "name": "_Z6addOnei", "kind": "function" }
-, { "name": "main", "kind": "function" }
-]
-```
-
-
-## Calling functions
-
-
-::: {.columns style="display: flex;"}
-
-::: {.column style="width: 50%; display: flex; flex-direction: column; align-items: flex-start;"}
 
 ```js
 instance.exports
 ```
 
-```{.js .med}
-{ Z11getCallsPtrv: function 0()
-, _Z6addOnei: function 1()
+```js
+{ _Z6addOnei: function 1()
 , main: function 2()
 , memory: WebAssembly.Memory
 }
 ```
 
-:::
-
-::: {.column style="width: 50%; display: flex; flex-direction: column; align-items: flex-start;"}
+## Calling functions
 
 
-```{.js .med}
+```js
 instance.exports._Z6addOnei(2019)
 ```
 
 ```js
 2020
 ```
-
-:::
-:::
 
 
 ## `wasm-trace`
@@ -830,7 +832,9 @@ Don't play with matches, play with binaries!
 ::: {.column style="padding-left: 20px;"}
 
 - This is my roommate Meg
+
 - We like static analysis, systems programming, Rust, compilers
+
 - Needed a cool Rust project
 
 :::
@@ -860,6 +864,38 @@ Don't play with matches, play with binaries!
 
 :::
 :::
+
+
+## Example
+
+
+::: columns
+::: column
+
+```{.rust .med}
+fn do_stuff(x: i32) -> i32 {
+    return double(x) + negate(5);
+}
+
+do_stuff(4)
+```
+
+:::
+
+::: column
+
+```js
+call function do_stuff
+ |  call function double
+ |  return 8 from double
+ |  call function negate
+ |  return -5 from negate
+return 3 from do_stuff
+```
+
+:::
+:::
+
 
 ## Start with a Rust program
 
@@ -931,9 +967,6 @@ Then transform each function in `module.wasm`!
 ## Module layout
 
 
-:::::: columns
-::: {.column width=65%}
-
 ```{.js .small}
 (module
   (type $type0 (func (param i32) (result i32)))
@@ -953,23 +986,6 @@ Then transform each function in `module.wasm`!
   )
 )
 ```
-
-:::
-::: {.column style="width: 25%; position: relative;"}
-
-- **Type**
-- Import
-- Function
-- **Table**
-- **Memory**
-- Global
-- **Export**
-- Start
-- Element
-- **Code**
-
-:::
-::::::
 
 
 ## Add prologue instructions
@@ -1201,12 +1217,15 @@ const buf = new Int32Array(
 ## Soundness
 
 - **Type safety:** no invalid calls, no illegal accesses to locals
-- **Memory safety:** no buffer overflows, no dangling pointers; code and call stack are not accessible to the program
+- **Memory safety:** no buffer overflows, no dangling pointers
+    - Code and call stack are not accessible to the program
 
 
----
+<!--
 
 > Soundness proves that the reduction rules...actually cover all execution states that can arise for valid programs. In other words, it proves the absence of undefined behavior in the execution semantics.
+
+-->
 
 
 ## Typing rules for instructions
@@ -1238,6 +1257,7 @@ const buf = new Int32Array(
 
 :::
 :::
+
 
 ## A formal semantics from the start
 
