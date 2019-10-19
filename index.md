@@ -1,7 +1,7 @@
 ---
 title: All the memory safety of C combined with all the blazing speed of JavaScript
 author:
-    - Slim ([\@soylentqueen](https://twitter.com/soylentqueen))
+    - Slim ([\@sliminality](https://twitter.com/sliminality))
     - Notion ([notion.so](http://notion.so))
 
 theme: slim
@@ -1301,9 +1301,9 @@ const buf = new Int32Array(
 }
 </style>
 
-- [\@soylentqueen](http://twitter.com/soylentqueen)
+- [\@sliminality](http://twitter.com/sliminality)
 
-- GitHub: [sarahlim/wasm-trace](http://github.com/sarahlim/wasm-trace)
+- GitHub: [sliminality/wasm-trace](http://github.com/sliminality/wasm-trace)
 
 - ![](img/notion-logo-no-background.png){.small-logo} Notion is hiring! [notion.so/jobs](http://notion.so/jobs)
 
